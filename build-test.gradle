@@ -3,11 +3,24 @@ buildscript {
         maven {
             url uri('../repo')
         }
+		mavenLocal()
     }
     dependencies {
         classpath group: 'eu.schnuckelig', name: 'gradle-jaxws-plugin', version: '0.1-SNAPSHOT'
     }
 }
+apply plugin: 'maven'
 apply plugin: 'jaxws'
 
+jaxws {
+	packageName = 'eu.schnuckelig.gradle.test'
+	wsdlURL = 'http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL'
+}
 
+repositories {
+	maven {
+		url uri('../repo')
+	}
+	maven { url "http://eis-ms-db-36.ms.eucon.local:8881/nexus/content/groups/public/" }
+	mavenLocal()
+}

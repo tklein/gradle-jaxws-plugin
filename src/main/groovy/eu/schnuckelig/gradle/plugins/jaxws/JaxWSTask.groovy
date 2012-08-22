@@ -3,10 +3,10 @@
  */
 package eu.schnuckelig.gradle.plugins.jaxws
 
+import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -14,7 +14,7 @@ import org.gradle.api.tasks.TaskAction
  *
  * @author Thorsten Klein
  */
-public class JaxWSTask extends SourceTask {
+public class JaxWSTask extends DefaultTask {
     /**
      * The classpath containing the Ant XJC task implementation.
      * <p>
@@ -40,16 +40,19 @@ public class JaxWSTask extends SourceTask {
         project.file(metaInfDirectory).mkdirs()
 		
 //        def xjcLibs = jaxWSClasspath + project.configurations.antextension
+println jaxwsClasspath
+println outputDirectory
+println project.jaxws.wsdlURL
 
         ant.taskdef(name:'wsimport',
 		            classname:'com.sun.tools.ws.ant.WsImport',
 		            classpath: project.configurations.jaxws.asPath)
 		ant.wsimport(keep:true,
-                 destdir: sourceSets.main.output.classesDir,
-                 package: project.configurations.jaxws.package,
+                 package: project.jaxws.packageName,
                  sourcedestdir: outputDirectory,
-                 wsdl: project.configurations.jaxws.wsdl,
-				 xendorsed: true)
+                 wsdl: project.jaxws.wsdlURL,
+				 xendorsed: true,
+				 xnocompile: true)
 		
 //        ant.xjc(extension: true, catalog: 'src/main/xsd/catalog.cat', destdir: outputDirectory, classpath: project.configurations.compile.asPath) {
 //            source.addToAntBuilder(ant, 'schema', FileCollection.AntType.FileSet)

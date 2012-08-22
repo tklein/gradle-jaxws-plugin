@@ -1,6 +1,7 @@
 package eu.schnuckelig.gradle.plugins.jaxws
 
 import org.eclipse.jdt.internal.compiler.problem.ShouldNotImplement;
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project;
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.compile.Compile;
@@ -23,7 +24,15 @@ public class JaxWSPluginTest {
 		Project project = ProjectBuilder.builder().build()
 		project.apply plugin: 'jaxws'
 
-		assertTrue(project.tasks.wsimport instanceof SourceTask)
+		assertTrue(project.tasks.wsimport instanceof JaxWSTask)
+	}
+	
+	@Test
+	public void pluginCustomGeneratedSourceSetIsNull() {
+		Project project = ProjectBuilder.builder().build()
+		project.apply plugin:"java"
+		project.apply plugin:"jaxws"
+		assertEquals(null, project.jaxws.sourceDir)
 	}
 	
 	@Test
@@ -31,9 +40,10 @@ public class JaxWSPluginTest {
 		Project project = ProjectBuilder.builder().build()
 		project.apply plugin:"java"
 		project.apply plugin:"jaxws"
-		println project.sourceSets.main.jaxws.sourceDir
-		assert project.sourceSets.main.jaxws.sourceDir
+		
+		assert project.tasks.wsimport.outputDirectory
 	}
+	
 	
 //	@Test
 //	public void pluginAddsIntTestSourceSet() {

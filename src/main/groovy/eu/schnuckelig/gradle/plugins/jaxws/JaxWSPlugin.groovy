@@ -19,7 +19,7 @@ public class JaxWSPlugin implements Plugin<Project> {
 
 		project.configurations.add('jaxws') {
 			visible = false
-			transitive = false
+			transitive = true
 			description = "The JAX-WS libraries to be used for this project."
 		}
 
@@ -27,6 +27,8 @@ public class JaxWSPlugin implements Plugin<Project> {
 			extendsFrom project.configurations.jaxws
 		}
 
+		project.extensions.create("jaxws", JaxWSPluginExtension)
+		
 //		project.configurations.add('antextension') {
 //			visible = false
 //			transitive = false
@@ -51,7 +53,7 @@ public class JaxWSPlugin implements Plugin<Project> {
 			SourceSet sourceSet = it
 			File generatedSrcDir = generatedJavaDirFor(project, sourceSet);
 			java { srcDir  generatedSrcDir }
-			jaxws { srcDir '' }
+			//jaxws { srcDir '' }
 			//resources { srcDir schemasDir }
 			
 			Task jaxws = createJaxWSTaskFor(sourceSet, project)
@@ -90,7 +92,13 @@ public class JaxWSPlugin implements Plugin<Project> {
 	}
 
 	private File generatedJavaDirFor(Project project, SourceSet sourceSet) {
-		project.file("${project.buildDir}/generated-src/jaxws/${sourceSet.name}")
+		def defaultOutputDir = "${project.buildDir}/generated-src/jaxws/${sourceSet.name}"; 
+		
+		if (project.jaxws.sourceDir) {
+			return project.file(project.jaxws.sourceDir)
+		}
+		
+		project.file(defaultOutputDir)
 	}
 
 	private String taskName(SourceSet sourceSet) {
