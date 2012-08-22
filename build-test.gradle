@@ -1,0 +1,13 @@
+buildscript {
+    repositories {
+        maven {
+            url uri('../repo')
+        }
+    }
+    dependencies {
+        classpath group: 'eu.schnuckelig', name: 'gradle-jaxws-plugin', version: '0.1-SNAPSHOT'
+    }
+}
+apply plugin: 'jaxws'
+
+

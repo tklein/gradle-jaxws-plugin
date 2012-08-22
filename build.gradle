@@ -1,0 +1,27 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+dependencies {
+    compile gradleApi()
+    groovy localGroovy()
+}
+
+group = 'eu.schnuckelig'
+version = '0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testCompile 'junit:junit:4.8.2'
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: uri('../repo'))
+		}
+	}
+}
