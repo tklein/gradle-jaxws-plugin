@@ -39,11 +39,6 @@ public class JaxWSTask extends DefaultTask {
         def metaInfDirectory = "${project.buildDir}/resources/main/META-INF"
         project.file(metaInfDirectory).mkdirs()
 		
-//        def xjcLibs = jaxWSClasspath + project.configurations.antextension
-println jaxwsClasspath
-println outputDirectory
-println project.jaxws.wsdlURL
-
         ant.taskdef(name:'wsimport',
 		            classname:'com.sun.tools.ws.ant.WsImport',
 		            classpath: project.configurations.jaxws.asPath)
@@ -53,12 +48,5 @@ println project.jaxws.wsdlURL
                  wsdl: project.jaxws.wsdlURL,
 				 xendorsed: true,
 				 xnocompile: true)
-		
-//        ant.xjc(extension: true, catalog: 'src/main/xsd/catalog.cat', destdir: outputDirectory, classpath: project.configurations.compile.asPath) {
-//            source.addToAntBuilder(ant, 'schema', FileCollection.AntType.FileSet)
-//            arg(value: '-verbose')
-//            arg(value: '-episode')
-//            arg(value: "${metaInfDirectory}/sun-jaxb.episode")
-//        }
     }
 }

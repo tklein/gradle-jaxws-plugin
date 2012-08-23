@@ -28,18 +28,6 @@ public class JaxWSPlugin implements Plugin<Project> {
 		}
 
 		project.extensions.create("jaxws", JaxWSPluginExtension)
-		
-//		project.configurations.add('antextension') {
-//			visible = false
-//			transitive = false
-//			description = "The internal library containing the XJC Ant task extension."
-//		}
-
-//		project.dependencies {
-//			// FIXME group and version must be resolved dynamically (group is just nice to have, can hard code)
-//			// Could update a properties file at deployment with new version
-//			antextension "no.entitas.gradle.jaxb:antextension:2.0"
-//		}
 
 		project.dependencies {
 			jaxws ('com.sun.xml.ws:jaxws-tools:2.2.7-promoted-b73') {
@@ -48,13 +36,9 @@ public class JaxWSPlugin implements Plugin<Project> {
 		}
 		
 		project.convention.plugins.java.sourceSets.main { 
-			// setupJaxWSFor(sourceSet, project)
-			//convention.plugins.jaxws = new JaxWSSourceDirectory(sourceSet.name, project.fileResolver)
 			SourceSet sourceSet = it
 			File generatedSrcDir = generatedJavaDirFor(project, sourceSet);
 			java { srcDir  generatedSrcDir }
-			//jaxws { srcDir '' }
-			//resources { srcDir schemasDir }
 			
 			Task jaxws = createJaxWSTaskFor(sourceSet, project)
 			project.tasks[sourceSet.compileJavaTaskName].dependsOn(jaxws)
@@ -66,14 +50,6 @@ public class JaxWSPlugin implements Plugin<Project> {
 		Task jaxws = createJaxWSTaskFor(sourceSet, project)
 		project.tasks[sourceSet.compileJavaTaskName].dependsOn(jaxws)
 	}
-
-//	private insertJaxWSSourceDirectorySetInto(SourceSet sourceSet, Project project) {
-//		//def schemasDir = "src/${sourceSet.name}/xsd"
-//		sourceSet.convention.plugins.jaxws = new JaxWSSourceDirectory(sourceSet.name, project.fileResolver)
-//		sourceSet.java { srcDir generatedJavaDirFor(project, sourceSet) }
-//		sourceSet.jaxws { srcDir schemasDir }
-//		sourceSet.resources { srcDir schemasDir }
-//	}
 
 	private Task createJaxWSTaskFor(SourceSet sourceSet, Project project) {
 		def jaxWSTask = project.tasks.add(taskName(sourceSet), JaxWSTask)
