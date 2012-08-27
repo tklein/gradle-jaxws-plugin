@@ -1,3 +1,4 @@
+apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
@@ -7,12 +8,12 @@ dependencies {
     groovy localGroovy()
 }
 
-group = 'eu.schnuckelig'
+group = 'eu.schnuckelig.gradle'
 version = '0.1-SNAPSHOT'
 
-repositories {
-	mavenCentral()
-}
+//repositories {
+//	mavenCentral()
+//}
 
 dependencies {
 	testCompile 'junit:junit:4.8.2'
