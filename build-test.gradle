@@ -9,6 +9,7 @@ buildscript {
         classpath group: 'eu.schnuckelig', name: 'gradle-jaxws-plugin', version: '0.1-SNAPSHOT'
     }
 }
+
 apply plugin: 'maven'
 apply plugin: 'jaxws'
 
