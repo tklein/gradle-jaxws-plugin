@@ -24,6 +24,7 @@ You can just use the _jaxws_ plugin like any other plugin in your build file. Th
 buildscript {
 	repositories {
 		mavenLocal()
+		mavenCentral()
 	}
 	dependencies {
 		classpath group: 'eu.schnuckelig.gradle', name: 'gradle-jaxws-plugin', version: '0.1-SNAPSHOT'
@@ -40,5 +41,6 @@ jaxws {
 
 repositories {
 	mavenLocal()
+	mavenCentral()
 }
 ```
