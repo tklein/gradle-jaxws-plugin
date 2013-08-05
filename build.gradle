@@ -11,9 +11,9 @@ dependencies {
 group = 'eu.schnuckelig.gradle'
 version = '0.1-SNAPSHOT'
 
-//repositories {
-//	mavenCentral()
-//}
+repositories {
+	mavenCentral()
+}
 
 dependencies {
 	testCompile 'junit:junit:4.10'
