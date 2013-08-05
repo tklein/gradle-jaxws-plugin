@@ -27,7 +27,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath group: 'eu.schnuckelig.gradle', name: 'gradle-jaxws-plugin', version: '0.1-SNAPSHOT'
+		classpath "eu.schnuckelig.gradle:gradle-jaxws-plugin:0.1-SNAPSHOT"
 	}
 }
 
