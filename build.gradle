@@ -2,6 +2,9 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'signing'
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 dependencies {
     compile gradleApi()
@@ -20,9 +23,14 @@ dependencies {
 }
 
 uploadArchives {
-	repositories {
-		mavenDeployer {
-			repository(url: uri('../repo'))
-		}
-	}
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+        }
+    }
+}
+
+signing {
+	required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
 }
