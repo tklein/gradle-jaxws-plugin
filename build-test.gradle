@@ -1,12 +1,13 @@
 buildscript {
     repositories {
+        mavenCentral()
+        mavenLocal()
         maven {
-            url uri('../repo')
+        	url uri('https://oss.sonatype.org/content/groups/public')
         }
-		mavenLocal()
     }
     dependencies {
-        classpath group: 'eu.schnuckelig', name: 'gradle-jaxws-plugin', version: '0.1-SNAPSHOT'
+        classpath group: 'eu.schnuckelig.gradle', name: 'gradle-jaxws-plugin', version: '1.0'
     }
 }
 
@@ -19,9 +20,6 @@ jaxws {
 }
 
 repositories {
-	maven {
-		url uri('../repo')
-	}
-	maven { url "http://eis-ms-db-36.ms.eucon.local:8881/nexus/content/groups/public/" }
 	mavenLocal()
+	mavenCentral()
 }

@@ -34,4 +34,4 @@ public class JaxWSTaskTest {
 	        def task = project.task('wsimport', type: JaxWSTask)
 	        assertTrue(task instanceof JaxWSTask)
 	    }
-	}
+}
