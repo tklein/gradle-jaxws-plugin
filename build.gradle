@@ -5,7 +5,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'eu.schnuckelig.gradle'
-version = '1.0'
+version = '1.0.1-SNAPSHOT'
 
 ext {
 	isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -32,13 +32,19 @@ dependencies {
 
 uploadArchives {
     repositories {
+    	def repositoryUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ''
+		def repositoryPassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
+    
         mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            beforeDeployment { 
+            	MavenDeployment deployment -> signing.signPom(deployment) 
+            }
+            
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-	            authentication(userName: repoUser, password: repoPassword)
+	            authentication(userName: repositoryUsername, password: repositoryPassword)
 	        }
 	        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-	            authentication(userName: repoUser, password: repoPassword)
+	            authentication(userName: repositoryUsername, password: repositoryPassword)
 	        }
             
             pom.project {
@@ -80,6 +86,9 @@ uploadArchives {
     }
 }
 
+// Make sure all code is compiled, tested and checked before uploadArchives.
+uploadArchives.dependsOn ':build'
+
 // custom tasks for creating source/javadoc jars
 task sourcesJar(type: Jar, dependsOn:classes) {
      classifier = 'sources'
@@ -90,14 +99,15 @@ task javadocJar(type: Jar, dependsOn:javadoc) {
      classifier = 'javadoc'
      from javadoc.destinationDir
 }
- 
+
 // add javadoc/source jar tasks as artifacts
 artifacts {
-     archives sourcesJar
-     archives javadocJar
+	archives sourcesJar
+	archives javadocJar
 }
 
 signing {
-	required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+	if (isReleaseVersion) {
+	    sign configurations.archives
+	}
 }
