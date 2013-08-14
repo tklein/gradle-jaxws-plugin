@@ -9,13 +9,7 @@ was heavily influenced by the gradle-jaxb-plugin.
 Installation
 ------------
 
-Currently this project is not hosted in public repository, so you just need to build it locally.
-
-```bash
-$ git clone git@github.com:tklein/gradle-jaxws-plugin.git
-$ cd gradle-jaxws-plugin
-$ gradle build install
-```
+The plugin is available on Maven Central now, so you simply have to add it to your build dependencies as outlined in the usage section.
 
 Usage
 -----
@@ -25,11 +19,10 @@ You can just use the _jaxws_ plugin like any other plugin in your build file. Th
 ```groovy
 buildscript {
 	repositories {
-		mavenLocal()
 		mavenCentral()
 	}
 	dependencies {
-		classpath "eu.schnuckelig.gradle:gradle-jaxws-plugin:0.1-SNAPSHOT"
+		classpath "eu.schnuckelig.gradle:gradle-jaxws-plugin:1.0"
 	}
 }
 
@@ -42,7 +35,6 @@ jaxws {
 }
 
 repositories {
-	mavenLocal()
 	mavenCentral()
 }
 ```
