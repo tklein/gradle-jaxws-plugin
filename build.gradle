@@ -8,57 +8,55 @@ group = 'eu.schnuckelig.gradle'
 version = '1.0.1-SNAPSHOT'
 
 ext {
-	isReleaseVersion = !version.endsWith("SNAPSHOT")
-	description = 'Gradle JAX-WS plugin'
-	packaging = 'jar'
-	projectUrl = 'https://github.com/tklein/gradle-jaxws-plugin'
-	scmBrowseUrl = 'https://github.com/tklein/gradle-jaxws-plugin'
-	scmUrl = 'scm:git:https://github.com/tklein/gradle-jaxws-plugin'
+    isReleaseVersion = !version.endsWith("SNAPSHOT")
+    description = 'Gradle JAX-WS plugin'
+    packaging = 'jar'
+    projectUrl = 'https://github.com/tklein/gradle-jaxws-plugin'
+    scmBrowseUrl = 'https://github.com/tklein/gradle-jaxws-plugin'
+    scmUrl = 'scm:git:https://github.com/tklein/gradle-jaxws-plugin.git'
 }
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
+
+    testCompile 'junit:junit:4.11'
 }
 
 repositories {
-	mavenCentral()
-}
-
-dependencies {
-	testCompile 'junit:junit:4.11'
+    mavenCentral()
 }
 
 
 uploadArchives {
     repositories {
     	def repositoryUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ''
-		def repositoryPassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
-    
+	def repositoryPassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
+
         mavenDeployer {
-            beforeDeployment { 
-            	MavenDeployment deployment -> signing.signPom(deployment) 
+            beforeDeployment {
+            	MavenDeployment deployment -> signing.signPom(deployment)
             }
-            
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-	            authentication(userName: repositoryUsername, password: repositoryPassword)
-	        }
-	        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-	            authentication(userName: repositoryUsername, password: repositoryPassword)
-	        }
-            
+
+	    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+	        authentication(userName: repositoryUsername, password: repositoryPassword)
+	    }
+	    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+	        authentication(userName: repositoryUsername, password: repositoryPassword)
+	    }
+
             pom.project {
-        		name     archivesBaseName
-		    	packaging packaging
-				description project.ext.description
-				url projectUrl
-      			inceptionYear '2013'
- 
-				scm {
-					url scmBrowseUrl
-					connection scmUrl
-				}
-				
+		name     archivesBaseName
+		packaging packaging
+		description project.ext.description
+		url projectUrl
+		inceptionYear '2013'
+
+		scm {
+		    url scmBrowseUrl
+		    connection scmUrl
+		}
+
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
@@ -66,22 +64,21 @@ uploadArchives {
                         distribution 'repo'
                     }
                 }
-                
+
                 developers {
-					developer {
-						id 'tklein'
-						name 'Thorsten Klein'
-				        email 'dev@perlwizard.de'
-						url 'http://www.schnuckelig.eu'
-          
-						roles {
-							role 'Developer'
-						}
-						timezone '+1'
-					}
-				}
+		    developer {
+			id 'tklein'
+			name 'Thorsten Klein'
+			email 'dev@perlwizard.de'
+			url 'http://www.schnuckelig.eu'
+
+			roles {
+			    role 'Developer'
+			}
+			timezone '+1'
+		    }
+		}
             }
-            
         }
     }
 }
@@ -94,7 +91,7 @@ task sourcesJar(type: Jar, dependsOn:classes) {
      classifier = 'sources'
      from sourceSets.main.allSource
 }
- 
+
 task javadocJar(type: Jar, dependsOn:javadoc) {
      classifier = 'javadoc'
      from javadoc.destinationDir
