@@ -19,7 +19,7 @@ import org.eclipse.jdt.internal.compiler.problem.ShouldNotImplement;
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project;
 import org.gradle.api.tasks.SourceTask
-import org.gradle.api.tasks.compile.Compile;
+import org.gradle.api.tasks.compile.AbstractCompile;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -31,7 +31,7 @@ public class JaxWSPluginTest {
 		// This can probably be more cleverly handled. Perhaps 
 		Project project = ProjectBuilder.builder().build()
 		project.apply plugin:"jaxws"
-		assert project.tasks.compileJava instanceof Compile
+		assert project.tasks.compileJava instanceof AbstractCompile
 	}
 	
 	@Test
