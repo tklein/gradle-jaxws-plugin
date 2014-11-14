@@ -43,7 +43,9 @@ public class JaxWSTask extends DefaultTask {
      * The directory to generate the parser source files into
      */
     @OutputDirectory
-    File outputDirectory
+    File getOutputDirectory() {
+        null
+    }
 
     @TaskAction
     def generate() {
