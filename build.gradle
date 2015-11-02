@@ -16,6 +16,10 @@ ext {
     scmUrl = 'scm:git:https://github.com/tklein/gradle-jaxws-plugin.git'
 }
 
+signing {
+	sign configurations.archives
+}
+
 dependencies {
     compile gradleApi()
     compile localGroovy()
@@ -31,7 +35,7 @@ repositories {
 uploadArchives {
     repositories {
     	def repositoryUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ''
-	def repositoryPassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
+		def repositoryPassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
 
         mavenDeployer {
             beforeDeployment {
