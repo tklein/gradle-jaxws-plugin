@@ -29,6 +29,7 @@ import org.gradle.api.tasks.SourceSet
 public class JaxWSPlugin implements Plugin<Project> {
 	private static final String GENERATE_GROUP = 'generate'
 
+
 	void apply(Project project) {
 		project.plugins.apply(JavaPlugin)
 
@@ -71,7 +72,9 @@ public class JaxWSPlugin implements Plugin<Project> {
 
 		jaxWSTask.group = GENERATE_GROUP
 		jaxWSTask.description = "Generates code from the WSDL."
-		jaxWSTask.outputDirectory = generatedJavaDirFor(project, sourceSet)
+		jaxWSTask.conventionMapping.outputDirectory = {
+			generatedJavaDirFor(project, sourceSet)
+		}
 		//jaxWSTask.conventionMapping.defaultSource = { sourceSet.jaxws }
 		jaxWSTask.conventionMapping.jaxwsClasspath = {
 			def jaxwsClassPath = project.configurations.jaxws.copy()
@@ -84,7 +87,6 @@ public class JaxWSPlugin implements Plugin<Project> {
 
 	private File generatedJavaDirFor(Project project, SourceSet sourceSet) {
 		def defaultOutputDir = "${project.buildDir}/generated-src/jaxws/${sourceSet.name}"; 
-		
 		if (project.jaxws.sourceDir) {
 			return project.file(project.jaxws.sourceDir)
 		}
